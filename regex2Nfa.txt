@@ -1,0 +1,67 @@
+#include <iostream>
+#include <stack>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+
+struct State {
+    int id;
+    char symbol;
+    State* out1;
+    State* out2;
+};
+
+struct Fragment {
+    State* Start;
+    vector<State**> outList;
+};
+
+int idCounter = 0;
+
+State* createState(char symbol, State* out1 = nullptr, State* out2 = nullptr) {
+    return new State{idCounter++, symbol, out1, out2};
+}
+
+Fragment createFragment(char s) {
+    State* accept = createState(0, nullptr, nullptr);
+    State* start = createState(s, accept, nullptr);
+    vector<State**> outList = { &accept->out1 };
+    return Fragment{start, outList};
+}
+
+Fragment concatFrag(Fragment f1, Fragment f2) {
+   State* newStart = f1.Start;
+   for (auto out: f1.outList) {
+        *out = f2.Start;
+   }
+   vector<State**> outList = f2.outList;
+   return Fragment{newStart, outList}; 
+}
+
+Fragment unionFrag(Fragment f1, Fragment f2) {
+    State* newStart = createState(0, f1.Start, f2.Start);
+    State* newAccept = createState(0, nullptr, nullptr);
+    for (auto out: f1.outList) {
+        *out = newAccept;
+    }
+    for (auto out: f2.outList) {
+        *out = newAccept;
+    }
+    vector<State**> outList = { &newAccept->out1 };
+    return Fragment{newStart, outList};
+}
+
+Fragment kleeneFrag(Fragment f) {
+    State* newAccept = createState(0, nullptr, nullptr);
+    State* newStart = createState(0, f.Start, newAccept);
+    for (auto out : f.outList) {
+        State* split = createState(0, f.Start, newAccept);
+        *out = split;
+    }
+    vector<State**> outList = { &newAccept->out1 };
+    return Fragment{newStart, outList};
+}
+
+void postfix2Nfa()

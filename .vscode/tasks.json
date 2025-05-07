@@ -1,0 +1,27 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "build",
+            "command": "/opt/homebrew/bin/g++-14",
+            "args": [
+                "-g",
+                "postfix2Nfa.cpp",
+                "regex_converter.cpp",
+                "-o",
+                "regex2Nfa"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "version": "2.0.0"
+}
