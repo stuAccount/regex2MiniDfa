@@ -5,7 +5,6 @@
 #include <vector>
 #include <map>
 
-// Forward declarations for Node and Edge
 struct Node;
 struct Edge;
 struct DfaNode {

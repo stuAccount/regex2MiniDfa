@@ -8,9 +8,19 @@ using namespace std;
 
 struct DfaNode; // Forward declaration
 
-struct MiniNode; 
+struct MiniNode {
+    int id;
+    std::set<DfaNode*> dfaStates;
+    MiniNode(int i, std::set<DfaNode*> d): id(i), dfaStates(d) {}
+};
 
-struct MiniEdge;
+struct MiniEdge{
+    MiniNode* begin;
+    MiniNode* end;
+    char label;
+    MiniEdge(MiniNode* b, MiniNode* e, char l): begin(b), end(e), label(l){}
+};
+
 void initDisTable(map<DfaNode*, map<char, DfaNode*> > dfaEdges, map< pair<int, int>, bool>& distinguishable);
 pair<int, int> normPair(int a, int b);
 void splitAndMark(map<DfaNode*, map<char, DfaNode*> > dfaEdges, map < pair<int, int>, bool>& distinguishable);

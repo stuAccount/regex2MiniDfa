@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 bool isOperator(char c) {
     return (c == '.' || c == '*' || c == '|' || c == '(' || c == ')');
 }
@@ -44,9 +43,8 @@ string regex2Postfix(const string& regex) {
     string infix = insertConcat(regex);
     string postfix;
     stack<char> opStack;
-    for (int i = 0; i< infix.length(); i++) {
+    for (int i = 0; i < infix.length(); i++) {
         char curr = infix[i];
-        
         if (isOperand(curr)) {
             postfix += curr;
         }
@@ -69,7 +67,7 @@ string regex2Postfix(const string& regex) {
             opStack.push(curr);
         }
     }
-    while(!opStack.empty()) {
+    while (!opStack.empty()) {
         postfix += opStack.top();
         opStack.pop();
     }
